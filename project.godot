@@ -1,0 +1,97 @@
+; Engine configuration file.
+config_version=5
+
+[application]
+
+config/name="Hunter Game"
+run/main_scene="res://scenes/world/forest_map.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://systems/event_bus.gd"
+GameState="*res://systems/game_state.gd"
+Config="*res://systems/config.gd"
+
+[input]
+
+move_forward={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"physical_keycode": 87,
+"key_label": 0,
+"unicode": 119,
+"echo": false,
+"script": null
+}]
+}
+move_back={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"physical_keycode": 83,
+"key_label": 0,
+"unicode": 115,
+"echo": false,
+"script": null
+}]
+}
+move_left={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"physical_keycode": 65,
+"key_label": 0,
+"unicode": 97,
+"echo": false,
+"script": null
+}]
+}
+move_right={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"physical_keycode": 68,
+"key_label": 0,
+"unicode": 100,
+"echo": false,
+"script": null
+}]
+}
+jump={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"physical_keycode": 32,
+"key_label": 0,
+"unicode": 32,
+"echo": false,
+"script": null
+}]
+}
+sneak={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"physical_keycode": 4194326,
+"key_label": 0,
+"unicode": 0,
+"echo": false,
+"script": null
+}]
+}
+fire={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"button_index": 1,
+"factor": 1.0,
+"script": null
+}]
+}
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
