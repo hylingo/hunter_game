@@ -10,10 +10,32 @@ enum Stance { STANDING, SNEAKING }
 
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
+@onready var anim_player: AnimationPlayer = _find_animation_player()
 
 var stance: Stance = Stance.STANDING
 var is_drawing_bow: bool = false
 var bow_charge: float = 0.0  # 0.0..1.0
+
+func _find_animation_player() -> AnimationPlayer:
+	var model: Node = get_node_or_null("Model")
+	if model == null:
+		return null
+	for child in model.get_children():
+		if child is AnimationPlayer:
+			return child
+	for child in model.get_children():
+		for grandchild in child.get_children():
+			if grandchild is AnimationPlayer:
+				return grandchild
+	return null
+
+func _play_anim(name: String) -> void:
+	if anim_player == null:
+		return
+	if anim_player.current_animation == name:
+		return
+	if anim_player.has_animation(name):
+		anim_player.play(name)
 
 ## Returns the noise radius the player is currently producing.
 ## Read by animal hearing checks.
@@ -30,7 +52,9 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var motion := event as InputEventMouseMotion
-		camera_pivot.rotate_y(-motion.relative.x * 0.003)
+		# Yaw rotates the whole player body so the model faces forward
+		rotate_y(-motion.relative.x * 0.003)
+		# Pitch only tilts the camera arm
 		spring_arm.rotate_x(-motion.relative.y * 0.003)
 		spring_arm.rotation.x = clamp(spring_arm.rotation.x, -1.2, 0.5)
 	if event.is_action_pressed("ui_cancel"):
@@ -48,6 +72,18 @@ func _physics_process(delta: float) -> void:
 	_update_stance()
 	_apply_horizontal_movement(delta)
 	move_and_slide()
+	_update_anim()
+
+func _update_anim() -> void:
+	if anim_player == null:
+		return
+	var horizontal: float = Vector2(velocity.x, velocity.z).length()
+	if horizontal < 0.1:
+		_play_anim("Idle")
+	elif stance == Stance.SNEAKING:
+		_play_anim("Walk")  # no sneak anim, use walk
+	else:
+		_play_anim("Walk")
 
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
@@ -108,8 +144,8 @@ func _fire_arrow(charge: float) -> void:
 	# Fire along the camera pivot's -Z (horizontal forward, matches the green indicator),
 	# NOT the camera's own -Z (which tilts up/down with mouse pitch).
 	var direction: Vector3 = -camera_pivot.global_transform.basis.z.normalized()
-	# Spawn slightly below eye height so arrows hit chest-level targets, not over their heads
-	var spawn_pos: Vector3 = camera_pivot.global_transform.origin + direction * 1.0 + Vector3(0, -0.6, 0)
+	# Spawn well below eye height so arrows hit short targets (wolves are ~0.8m tall)
+	var spawn_pos: Vector3 = camera_pivot.global_transform.origin + direction * 1.0 + Vector3(0, -1.2, 0)
 	arrow.global_transform.origin = spawn_pos
 	arrow.look_at(spawn_pos + direction, Vector3.UP)
 	var speed: float = lerp(Config.ARROW_SPEED_MIN, Config.ARROW_SPEED_MAX, charge)

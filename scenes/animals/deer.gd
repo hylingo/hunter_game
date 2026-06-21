@@ -15,6 +15,28 @@ var hp: float
 var current_state: AnimalState
 var current_state_name: String = ""
 
+@onready var anim_player: AnimationPlayer = _find_animation_player()
+
+func _find_animation_player() -> AnimationPlayer:
+	var model: Node = get_node_or_null("Model")
+	if model == null:
+		return null
+	for child in model.get_children():
+		if child is AnimationPlayer:
+			return child
+		for grandchild in child.get_children():
+			if grandchild is AnimationPlayer:
+				return grandchild
+	return null
+
+func _play_anim(name: String) -> void:
+	if anim_player == null:
+		return
+	if anim_player.current_animation == name:
+		return
+	if anim_player.has_animation(name):
+		anim_player.play(name)
+
 func _ready() -> void:
 	hp = max_hp
 	_transition("idle")
@@ -47,6 +69,11 @@ func _transition(state_name: String) -> void:
 	current_state_name = state_name
 	current_state = STATES[state_name].new()
 	current_state.enter(self)
+	match state_name:
+		"idle":   _play_anim("Idle")
+		"wander": _play_anim("Walk")
+		"alert":  _play_anim("Idle_2")
+		"flee":   _play_anim("Gallop")
 
 func take_damage(amount: float) -> void:
 	if hp <= 0:
@@ -58,8 +85,8 @@ func take_damage(amount: float) -> void:
 func _die() -> void:
 	EventBus.animal_killed.emit("deer", global_transform.origin)
 	set_physics_process(false)
-	rotation.x = deg_to_rad(-90)
-	await get_tree().create_timer(2.0).timeout
+	_play_anim("Death")
+	await get_tree().create_timer(2.5).timeout
 	queue_free()
 
 func sees_threat() -> bool:
