@@ -1,8 +1,10 @@
 extends CharacterBody3D
 class_name Player
 
-## Third-person character controller. Owns movement, sneak state, and
-## (later) bow charge/release.
+## Third-person character controller. Owns movement, sneak state,
+## bow charge/release, and arrow spawning.
+
+const ArrowScene: PackedScene = preload("res://scenes/projectiles/arrow.tscn")
 
 enum Stance { STANDING, SNEAKING }
 
@@ -86,5 +88,20 @@ func release_bow() -> float:
 	is_drawing_bow = false
 	return charge
 
-func _fire_arrow(_charge: float) -> void:
-	pass  # filled in Task 6
+func _fire_arrow(charge: float) -> void:
+	if GameState.arrows <= 0:
+		return
+	GameState.arrows -= 1
+	var arrow: Arrow = ArrowScene.instantiate()
+	get_tree().current_scene.add_child(arrow)
+	var camera: Camera3D = $CameraPivot/SpringArm3D/Camera3D
+	# Camera's -Z is the look direction; .basis.z is "backward" so we negate.
+	var direction: Vector3 = -camera.global_transform.basis.z.normalized()
+	# Spawn slightly ahead of the camera so the arrow's collision shape
+	# doesn't immediately overlap the player and get knocked sideways.
+	var spawn_pos: Vector3 = camera.global_transform.origin + direction * 0.6
+	arrow.global_transform.origin = spawn_pos
+	arrow.look_at(spawn_pos + direction, Vector3.UP)
+	var speed: float = lerp(Config.ARROW_SPEED_MIN, Config.ARROW_SPEED_MAX, charge)
+	arrow.linear_velocity = direction * speed
+	EventBus.player_shot_arrow.emit(spawn_pos, direction)

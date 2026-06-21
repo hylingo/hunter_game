@@ -13,8 +13,8 @@ const NOISE_SNEAK := 1.0
 
 # Bow
 const ARROW_DAMAGE := 50.0
-const ARROW_SPEED_MIN := 20.0
-const ARROW_SPEED_MAX := 40.0
+const ARROW_SPEED_MIN := 15.0
+const ARROW_SPEED_MAX := 25.0
 const BOW_CHARGE_TIME := 1.0  # seconds to reach full charge
 
 # Deer perception
