@@ -88,6 +88,17 @@ func release_bow() -> float:
 	is_drawing_bow = false
 	return charge
 
+func take_damage(amount: float) -> void:
+	GameState.hp -= amount
+	EventBus.player_hit_by.emit(amount, self)
+	if GameState.hp <= 0:
+		_die()
+
+func _die() -> void:
+	# Milestone 1: reload scene on death.
+	GameState.reset()
+	get_tree().reload_current_scene()
+
 func _fire_arrow(charge: float) -> void:
 	if GameState.arrows <= 0:
 		return
