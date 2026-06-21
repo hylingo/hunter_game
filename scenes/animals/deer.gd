@@ -25,6 +25,13 @@ func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)
 	var next := current_state.process(self, delta)
 	move_and_slide()
+	# Soft world boundary: keep deer inside ±45m
+	var p := global_transform.origin
+	if absf(p.x) > 45 or absf(p.z) > 45:
+		var t := global_transform
+		t.origin.x = clampf(t.origin.x, -45, 45)
+		t.origin.z = clampf(t.origin.z, -45, 45)
+		global_transform = t
 	if next != "" and next != current_state_name:
 		_transition(next)
 
@@ -48,7 +55,7 @@ func take_damage(amount: float) -> void:
 		queue_free()
 
 func sees_threat() -> bool:
-	var player := get_tree().get_first_node_in_group("player")
+	var player: Node = get_tree().get_first_node_in_group("player")
 	if player == null:
 		return false
 	var forward: Vector3 = -global_transform.basis.z

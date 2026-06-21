@@ -1,11 +1,11 @@
 extends CanvasLayer
 class_name HUD
 
-@onready var hp_bar: ProgressBar = $Root/HPBar
-@onready var hp_label: Label = $Root/HPBar/HPLabel
-@onready var arrows_label: Label = $Root/ArrowsLabel
-@onready var kills_label: Label = $Root/KillsLabel
-@onready var crosshair: Control = $Root/Crosshair
+@onready var hp_bar: ProgressBar = $root/HPBar
+@onready var hp_label: Label = $root/HPBar/HPLabel
+@onready var arrows_label: Label = $root/ArrowsLabel
+@onready var kills_label: Label = $root/KillsLabel
+@onready var crosshair: Control = $root/Crosshair
 
 var kills: int = 0
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 	_refresh()
 
 func _process(_delta: float) -> void:
-	var player := get_tree().get_first_node_in_group("player")
+	var player: Node = get_tree().get_first_node_in_group("player")
 	if player and "is_drawing_bow" in player:
 		crosshair.visible = player.is_drawing_bow
 

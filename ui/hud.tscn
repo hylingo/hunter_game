@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://bdj30xeiexac6"]
+
+[ext_resource type="Script" uid="uid://dsf8pntl66dns" path="res://ui/hud.gd" id="1_37p78"]
+
+[node name="HUD" type="CanvasLayer" unique_id=497388910]
+script = ExtResource("1_37p78")
+
+[node name="root" type="Control" parent="." unique_id=761913939]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HPBar" type="ProgressBar" parent="root" unique_id=1339246137]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -50.0
+offset_right = 220.0
+offset_bottom = -20.0
+grow_vertical = 0
+value = 100.0
+
+[node name="HPLabel" type="Label" parent="root/HPBar" unique_id=583909561]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP 100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArrowsLabel" type="Label" parent="root" unique_id=1334574402]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -50.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "Arrows: 10"
+
+[node name="KillsLabel" type="Label" parent="root" unique_id=1713123776]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 43.0
+theme_override_font_sizes/font_size = 24
+text = "Kills: 0"
+
+[node name="Crosshair" type="Control" parent="root" unique_id=74743459]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="root/Crosshair" unique_id=389504982]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 1)

@@ -9,7 +9,7 @@ size = Vector3(0.05, 0.05, 0.6)
 albedo_color = Color(1, 0.9, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kohnk"]
-size = Vector3(0.1, 0.1, 0.8)
+size = Vector3(0.15, 0.15, 2.0)
 material = SubResource("StandardMaterial3D_arrow")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kohnk"]
@@ -19,6 +19,7 @@ size = Vector3(0.06, 0.06, 0.7)
 input_ray_pickable = false
 gravity_scale = 0.15
 continuous_cd = true
+lock_rotation = true
 script = ExtResource("1_l5ahi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1144279356]

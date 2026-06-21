@@ -8,7 +8,7 @@ func process(animal, delta: float) -> String:
 	_timer += delta
 	if _timer >= RETREAT_DURATION:
 		return "wander"
-	var player := animal.get_tree().get_first_node_in_group("player")
+	var player: Node = animal.get_tree().get_first_node_in_group("player")
 	if player == null:
 		return "wander"
 	var away: Vector3 = animal.global_transform.origin - player.global_transform.origin

@@ -10,7 +10,7 @@ func enter(_animal) -> void:
 func process(animal, delta: float) -> String:
 	animal.velocity.x = 0
 	animal.velocity.z = 0
-	var player := animal.get_tree().get_first_node_in_group("player")
+	var player: Node = animal.get_tree().get_first_node_in_group("player")
 	if player == null:
 		return "wander"
 	var dist: float = animal.global_transform.origin.distance_to(player.global_transform.origin)

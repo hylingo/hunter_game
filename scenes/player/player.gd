@@ -63,7 +63,7 @@ func _update_stance() -> void:
 func _apply_horizontal_movement(_delta: float) -> void:
 	var input := Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
-		Input.get_action_strength("move_back") - Input.get_action_strength("move_forward")
+		Input.get_action_strength("move_forward") - Input.get_action_strength("move_back")
 	)
 	var forward := -camera_pivot.global_transform.basis.z
 	forward.y = 0
@@ -105,12 +105,11 @@ func _fire_arrow(charge: float) -> void:
 	GameState.arrows -= 1
 	var arrow: Arrow = ArrowScene.instantiate()
 	get_tree().current_scene.add_child(arrow)
-	var camera: Camera3D = $CameraPivot/SpringArm3D/Camera3D
-	# Camera's -Z is the look direction; .basis.z is "backward" so we negate.
-	var direction: Vector3 = -camera.global_transform.basis.z.normalized()
-	# Spawn slightly ahead of the camera so the arrow's collision shape
-	# doesn't immediately overlap the player and get knocked sideways.
-	var spawn_pos: Vector3 = camera.global_transform.origin + direction * 0.6
+	# Fire along the camera pivot's -Z (horizontal forward, matches the green indicator),
+	# NOT the camera's own -Z (which tilts up/down with mouse pitch).
+	var direction: Vector3 = -camera_pivot.global_transform.basis.z.normalized()
+	# Spawn slightly below eye height so arrows hit chest-level targets, not over their heads
+	var spawn_pos: Vector3 = camera_pivot.global_transform.origin + direction * 1.0 + Vector3(0, -0.6, 0)
 	arrow.global_transform.origin = spawn_pos
 	arrow.look_at(spawn_pos + direction, Vector3.UP)
 	var speed: float = lerp(Config.ARROW_SPEED_MIN, Config.ARROW_SPEED_MAX, charge)

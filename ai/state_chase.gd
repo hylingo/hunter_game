@@ -2,7 +2,7 @@ class_name StateChase
 extends AnimalState
 
 func process(animal, _delta: float) -> String:
-	var player := animal.get_tree().get_first_node_in_group("player")
+	var player: Node = animal.get_tree().get_first_node_in_group("player")
 	if player == null:
 		return "wander"
 	var to_player: Vector3 = player.global_transform.origin - animal.global_transform.origin

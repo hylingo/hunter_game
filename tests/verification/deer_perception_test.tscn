@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://deer_test_scn01"]
+
+[ext_resource type="PackedScene" uid="uid://d1kwdryhvkc6h" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://brsluwnbghx8a" path="res://scenes/animals/deer.tscn" id="2_deer"]
+[ext_resource type="PackedScene" uid="uid://bdj30xeiexac6" path="res://ui/hud.tscn" id="3_hud"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(100, 0.2, 100)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+size = Vector2(100, 100)
+
+[node name="Test" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7071, -0.5, 0.5, 0, 0.7071, 0.7071, -0.7071, -0.5, 0.5, 0, 10, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+
+[node name="Deer1" parent="." instance=ExtResource("2_deer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -10)
+
+[node name="Deer2" parent="." instance=ExtResource("2_deer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -10)
+
+[node name="Deer3" parent="." instance=ExtResource("2_deer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -15)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]

@@ -8,6 +8,12 @@ height = 1.8
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_lqnk2"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_indicator"]
+size = Vector3(0.1, 0.1, 3.0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_indicator"]
+albedo_color = Color(0, 1, 0, 1)
+
 [node name="player" type="CharacterBody3D" unique_id=123306572 groups=["player"]]
 script = ExtResource("1_8afob")
 
@@ -21,6 +27,11 @@ mesh = SubResource("CapsuleMesh_lqnk2")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=759906030]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="ForwardIndicator" type="MeshInstance3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+mesh = SubResource("BoxMesh_indicator")
+surface_material_override/0 = SubResource("StandardMaterial3D_indicator")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=393302103]
 spring_length = 3.0
