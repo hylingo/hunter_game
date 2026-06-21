@@ -58,14 +58,7 @@ func take_damage(amount: float) -> void:
 func _die() -> void:
 	EventBus.animal_killed.emit("deer", global_transform.origin)
 	set_physics_process(false)
-	# Tip over so the player can see the death visually
 	rotation.x = deg_to_rad(-90)
-	# Darken the mesh as a "this is dead" cue
-	var mesh: MeshInstance3D = get_node_or_null("MeshInstance3D")
-	if mesh and mesh.get_surface_override_material(0):
-		var mat: StandardMaterial3D = mesh.get_surface_override_material(0).duplicate()
-		mat.albedo_color = mat.albedo_color * 0.4
-		mesh.set_surface_override_material(0, mat)
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 

@@ -1,15 +1,11 @@
 [gd_scene format=3 uid="uid://brsluwnbghx8a"]
 
 [ext_resource type="Script" path="res://scenes/animals/deer.gd" id="1_deer_script"]
+[ext_resource type="PackedScene" path="res://assets/models/animals/Deer.gltf" id="2_deer_model"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cmo1j"]
 radius = 0.35
 height = 1.2
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_kohnk"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lqnk2"]
-albedo_color = Color(0.4509804, 0.3137255, 0.1882353, 1)
 
 [node name="Deer" type="CharacterBody3D" unique_id=502325748]
 script = ExtResource("1_deer_script")
@@ -18,7 +14,4 @@ script = ExtResource("1_deer_script")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 shape = SubResource("CapsuleShape3D_cmo1j")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=200832873]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-mesh = SubResource("CapsuleMesh_kohnk")
-surface_material_override/0 = SubResource("StandardMaterial3D_lqnk2")
+[node name="Model" parent="." instance=ExtResource("2_deer_model")]

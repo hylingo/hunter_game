@@ -2,6 +2,11 @@
 
 [ext_resource type="Script" path="res://scenes/world/forest_map.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://bdj30xeiexac6" path="res://ui/hud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_1.gltf" id="3_tree1"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_2.gltf" id="4_tree2"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_3.gltf" id="5_tree3"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_4.gltf" id="6_tree4"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_5.gltf" id="7_tree5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.4, 0.6, 0.85, 1)
@@ -30,23 +35,6 @@ material = SubResource("Material_grass")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
 size = Vector3(100, 4, 1)
-
-[sub_resource type="StandardMaterial3D" id="Material_trunk"]
-albedo_color = Color(0.35, 0.22, 0.12, 1)
-
-[sub_resource type="StandardMaterial3D" id="Material_foliage"]
-albedo_color = Color(0.18, 0.4, 0.18, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
-top_radius = 0.25
-bottom_radius = 0.3
-height = 2.5
-material = SubResource("Material_trunk")
-
-[sub_resource type="SphereMesh" id="SphereMesh_foliage"]
-radius = 1.4
-height = 2.8
-material = SubResource("Material_foliage")
 
 [node name="ForestMap" type="Node3D"]
 script = ExtResource("1_script")
@@ -95,136 +83,40 @@ shape = SubResource("BoxShape3D_wall")
 
 [node name="Trees" type="Node3D" parent="."]
 
-[node name="Tree1" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -8)
+[node name="Tree1" parent="Trees" instance=ExtResource("3_tree1")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 15, 0, -8)
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree2" parent="Trees" instance=ExtResource("4_tree2")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -12, 0, -18)
 
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
+[node name="Tree3" parent="Trees" instance=ExtResource("5_tree3")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 22, 0, 15)
 
-[node name="Tree2" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -18)
+[node name="Tree4" parent="Trees" instance=ExtResource("6_tree4")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -25, 0, 8)
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree5" parent="Trees" instance=ExtResource("7_tree5")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 8, 0, 25)
 
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
+[node name="Tree6" parent="Trees" instance=ExtResource("3_tree1")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -8, 0, 30)
 
-[node name="Tree3" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 15)
+[node name="Tree7" parent="Trees" instance=ExtResource("4_tree2")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 35, 0, -25)
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree8" parent="Trees" instance=ExtResource("5_tree3")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -32, 0, -30)
 
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
+[node name="Tree9" parent="Trees" instance=ExtResource("6_tree4")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 28, 0, 38)
 
-[node name="Tree4" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 8)
+[node name="Tree10" parent="Trees" instance=ExtResource("7_tree5")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -38, 0, 35)
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree11" parent="Trees" instance=ExtResource("3_tree1")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 5, 0, -32)
 
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree5" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 25)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree6" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 30)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree7" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0, -25)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree8" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, -30)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree9" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, 38)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree9"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree9"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree10" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 0, 35)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree10"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree10"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree11" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -32)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree11"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree11"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
-
-[node name="Tree12" type="StaticBody3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -42)
-
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree12"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("CylinderMesh_trunk")
-
-[node name="Foliage" type="MeshInstance3D" parent="Trees/Tree12"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-mesh = SubResource("SphereMesh_foliage")
+[node name="Tree12" parent="Trees" instance=ExtResource("4_tree2")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -18, 0, -42)
 
 [node name="HUD" parent="." instance=ExtResource("2_hud")]
