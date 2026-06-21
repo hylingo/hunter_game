@@ -16,7 +16,7 @@ func test_hp_setter_clamps_to_zero() -> void:
 	assert_eq(GameState.hp, 0.0)
 
 func test_arrows_setter_clamps_to_max() -> void:
-	GameState.arrows = 500
+	GameState.arrows = GameState.ARROWS_MAX + 100
 	assert_eq(GameState.arrows, GameState.ARROWS_MAX)
 
 func test_hp_changed_signal_emits() -> void:
@@ -29,4 +29,4 @@ func test_reset_restores_defaults() -> void:
 	GameState.arrows = 0
 	GameState.reset()
 	assert_eq(GameState.hp, GameState.HP_MAX)
-	assert_eq(GameState.arrows, 10)
+	assert_eq(GameState.arrows, GameState.ARROWS_START)

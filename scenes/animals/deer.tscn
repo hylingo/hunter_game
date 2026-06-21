@@ -3,16 +3,15 @@
 [ext_resource type="Script" path="res://scenes/animals/deer.gd" id="1_deer_script"]
 [ext_resource type="PackedScene" path="res://assets/models/animals/Deer.gltf" id="2_deer_model"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cmo1j"]
-radius = 0.35
-height = 1.2
+[sub_resource type="BoxShape3D" id="BoxShape3D_deer_body"]
+size = Vector3(0.7, 1.17, 2.06)
 
 [node name="Deer" type="CharacterBody3D" unique_id=502325748]
 script = ExtResource("1_deer_script")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1369472193]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-shape = SubResource("CapsuleShape3D_cmo1j")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59, 0)
+shape = SubResource("BoxShape3D_deer_body")
 
 [node name="Model" parent="." instance=ExtResource("2_deer_model")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
+transform = Transform3D(-0.469, 0, 0, 0, 0.469, 0, 0, 0, -0.469, 0, 0, 0)

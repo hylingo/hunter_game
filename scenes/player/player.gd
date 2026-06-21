@@ -6,7 +6,7 @@ class_name Player
 
 const ArrowScene: PackedScene = preload("res://scenes/projectiles/arrow.tscn")
 
-enum Stance { STANDING, SNEAKING }
+enum Stance { STANDING, SNEAKING, RUNNING }
 
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
@@ -44,6 +44,7 @@ func noise_radius() -> float:
 		return 0.0
 	match stance:
 		Stance.SNEAKING: return Config.NOISE_SNEAK
+		Stance.RUNNING:  return Config.NOISE_RUN
 		_:               return Config.NOISE_WALK
 
 func _ready() -> void:
@@ -80,10 +81,10 @@ func _update_anim() -> void:
 	var horizontal: float = Vector2(velocity.x, velocity.z).length()
 	if horizontal < 0.1:
 		_play_anim("Idle")
-	elif stance == Stance.SNEAKING:
-		_play_anim("Walk")  # no sneak anim, use walk
+	elif stance == Stance.RUNNING:
+		_play_anim("Run")
 	else:
-		_play_anim("Walk")
+		_play_anim("Walk")  # walking or sneaking both use Walk anim
 
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
@@ -94,7 +95,15 @@ func _handle_jump() -> void:
 		velocity.y = Config.PLAYER_JUMP_VELOCITY
 
 func _update_stance() -> void:
-	stance = Stance.SNEAKING if Input.is_action_pressed("sneak") else Stance.STANDING
+	var prev := stance
+	if Input.is_action_pressed("sneak"):
+		stance = Stance.SNEAKING
+	elif Input.is_action_pressed("run"):
+		stance = Stance.RUNNING
+	else:
+		stance = Stance.STANDING
+	if stance != prev:
+		print("[stance] ", stance, " sneak=", Input.is_action_pressed("sneak"), " run=", Input.is_action_pressed("run"))
 
 func _apply_horizontal_movement(_delta: float) -> void:
 	var input := Vector2(
@@ -108,7 +117,11 @@ func _apply_horizontal_movement(_delta: float) -> void:
 	right.y = 0
 	right = right.normalized()
 	var move_dir := (right * input.x + forward * input.y).normalized() if input.length() > 0 else Vector3.ZERO
-	var speed := Config.PLAYER_SNEAK_SPEED if stance == Stance.SNEAKING else Config.PLAYER_WALK_SPEED
+	var speed: float = Config.PLAYER_WALK_SPEED
+	if stance == Stance.SNEAKING:
+		speed = Config.PLAYER_SNEAK_SPEED
+	elif stance == Stance.RUNNING:
+		speed = Config.PLAYER_RUN_SPEED
 	velocity.x = move_dir.x * speed
 	velocity.z = move_dir.z * speed
 
@@ -141,11 +154,11 @@ func _fire_arrow(charge: float) -> void:
 	GameState.arrows -= 1
 	var arrow: Arrow = ArrowScene.instantiate()
 	get_tree().current_scene.add_child(arrow)
-	# Fire along the camera pivot's -Z (horizontal forward, matches the green indicator),
-	# NOT the camera's own -Z (which tilts up/down with mouse pitch).
-	var direction: Vector3 = -camera_pivot.global_transform.basis.z.normalized()
-	# Spawn well below eye height so arrows hit short targets (wolves are ~0.8m tall)
-	var spawn_pos: Vector3 = camera_pivot.global_transform.origin + direction * 1.0 + Vector3(0, -1.2, 0)
+	# Aim along the CAMERA's look direction so mouse pitch (up/down) actually aims the bow.
+	var camera: Camera3D = $CameraPivot/SpringArm3D/Camera3D
+	var direction: Vector3 = -camera.global_transform.basis.z.normalized()
+	# Spawn in front of the camera; arrow has gravity for a natural arc.
+	var spawn_pos: Vector3 = camera.global_transform.origin + direction * 1.5
 	arrow.global_transform.origin = spawn_pos
 	arrow.look_at(spawn_pos + direction, Vector3.UP)
 	var speed: float = lerp(Config.ARROW_SPEED_MIN, Config.ARROW_SPEED_MAX, charge)

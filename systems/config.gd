@@ -4,17 +4,19 @@ extends Node
 # Player movement
 const PLAYER_WALK_SPEED := 4.0
 const PLAYER_SNEAK_SPEED := 1.5
+const PLAYER_RUN_SPEED := 8.0
 const PLAYER_JUMP_VELOCITY := 5.0
 const PLAYER_GRAVITY := 20.0
 
 # Noise radii (meters) — used by animal hearing checks
 const NOISE_WALK := 6.0
 const NOISE_SNEAK := 1.0
+const NOISE_RUN := 12.0
 
 # Bow
 const ARROW_DAMAGE := 50.0
-const ARROW_SPEED_MIN := 10.0
-const ARROW_SPEED_MAX := 18.0
+const ARROW_SPEED_MIN := 25.0
+const ARROW_SPEED_MAX := 45.0
 const BOW_CHARGE_TIME := 1.0  # seconds to reach full charge
 
 # Deer perception
