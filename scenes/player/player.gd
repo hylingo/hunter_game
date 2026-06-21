@@ -10,6 +10,8 @@ enum Stance { STANDING, SNEAKING }
 @onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
 
 var stance: Stance = Stance.STANDING
+var is_drawing_bow: bool = false
+var bow_charge: float = 0.0  # 0.0..1.0
 
 ## Returns the noise radius the player is currently producing.
 ## Read by animal hearing checks.
@@ -31,8 +33,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		spring_arm.rotation.x = clamp(spring_arm.rotation.x, -1.2, 0.5)
 	if event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if event.is_action_pressed("fire"):
+		is_drawing_bow = true
+	elif event.is_action_released("fire"):
+		var charge := release_bow()
+		_fire_arrow(charge)
 
 func _physics_process(delta: float) -> void:
+	tick_bow(delta)
 	_apply_gravity(delta)
 	_handle_jump()
 	_update_stance()
@@ -65,3 +73,18 @@ func _apply_horizontal_movement(_delta: float) -> void:
 	var speed := Config.PLAYER_SNEAK_SPEED if stance == Stance.SNEAKING else Config.PLAYER_WALK_SPEED
 	velocity.x = move_dir.x * speed
 	velocity.z = move_dir.z * speed
+
+## Advance bow charge for one tick. Pure logic, no node calls — testable.
+func tick_bow(delta: float) -> void:
+	if is_drawing_bow:
+		bow_charge = clamp(bow_charge + delta / Config.BOW_CHARGE_TIME, 0.0, 1.0)
+
+## Release the bow. Returns the charge level [0..1] and resets state.
+func release_bow() -> float:
+	var charge := bow_charge
+	bow_charge = 0.0
+	is_drawing_bow = false
+	return charge
+
+func _fire_arrow(_charge: float) -> void:
+	pass  # filled in Task 6
