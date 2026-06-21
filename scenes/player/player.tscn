@@ -1,12 +1,11 @@
 [gd_scene format=3 uid="uid://d1kwdryhvkc6h"]
 
 [ext_resource type="Script" uid="uid://75w5in5gebs4" path="res://scenes/player/player.gd" id="1_8afob"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/Adventurer.glb" id="2_adventurer"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kohnk"]
 radius = 0.4
 height = 1.8
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_lqnk2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_indicator"]
 size = Vector3(0.1, 0.1, 3.0)
@@ -21,9 +20,7 @@ script = ExtResource("1_8afob")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("CapsuleShape3D_kohnk")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=380898548]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_lqnk2")
+[node name="Model" parent="." instance=ExtResource("2_adventurer")]
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=759906030]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
