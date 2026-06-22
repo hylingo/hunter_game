@@ -1,7 +1,7 @@
 extends RigidBody3D
 class_name Arrow
 
-const LIFETIME_SECONDS := 3.0
+const LIFETIME_SECONDS := 5.0
 
 var damage: float = Config.ARROW_DAMAGE
 var _age: float = 0.0

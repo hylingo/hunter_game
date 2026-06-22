@@ -48,12 +48,12 @@ func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)
 	var next := current_state.process(self, delta)
 	move_and_slide()
-	# Soft world boundary: keep wolf inside ±45m
+	# Soft world boundary: keep wolf inside ±120m
 	var p := global_transform.origin
-	if absf(p.x) > 45 or absf(p.z) > 45:
+	if absf(p.x) > 120 or absf(p.z) > 120:
 		var t := global_transform
-		t.origin.x = clampf(t.origin.x, -45, 45)
-		t.origin.z = clampf(t.origin.z, -45, 45)
+		t.origin.x = clampf(t.origin.x, -120, 120)
+		t.origin.z = clampf(t.origin.z, -120, 120)
 		global_transform = t
 	if next != "" and next != current_state_name:
 		_transition(next)

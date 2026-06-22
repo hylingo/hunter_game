@@ -1,0 +1,40 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://cmes2f7cyiacv"
+path="res://.godot/imported/4FeHiJg3slP25IYn3AG7MXiVTDe9qK_VEF7TSM5WO0oJNR98nf9eKchVBwqHP1EwhCltbZnZwoxVye5FdTBHiAVXCaFvjl0ECruKx_rVRGd3xKqpo_qb8LQ96hKSQHCHNdVQrOhkrkzYvIQuwrOXL8EYx3filLYQ8Ia6AL-Swz1v-1XLf3Qn_MEwJD2nATDy copy.jpeg-528cc08ad1fa43fd22a5dcef97e4313a.ctex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://visuals/4FeHiJg3slP25IYn3AG7MXiVTDe9qK_VEF7TSM5WO0oJNR98nf9eKchVBwqHP1EwhCltbZnZwoxVye5FdTBHiAVXCaFvjl0ECruKx_rVRGd3xKqpo_qb8LQ96hKSQHCHNdVQrOhkrkzYvIQuwrOXL8EYx3filLYQ8Ia6AL-Swz1v-1XLf3Qn_MEwJD2nATDy copy.jpeg"
+dest_files=["res://.godot/imported/4FeHiJg3slP25IYn3AG7MXiVTDe9qK_VEF7TSM5WO0oJNR98nf9eKchVBwqHP1EwhCltbZnZwoxVye5FdTBHiAVXCaFvjl0ECruKx_rVRGd3xKqpo_qb8LQ96hKSQHCHNdVQrOhkrkzYvIQuwrOXL8EYx3filLYQ8Ia6AL-Swz1v-1XLf3Qn_MEwJD2nATDy copy.jpeg-528cc08ad1fa43fd22a5dcef97e4313a.ctex"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1
