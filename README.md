@@ -14,3 +14,6 @@ On macOS the Godot binary is inside the app bundle, e.g. `/Applications/Godot.ap
 
 ## Tests
 Open the project in Godot, then in the GUT panel (Project → Tools → GUT) run all tests in `tests/unit/`. Verification scenes under `tests/verification/` are run by opening and pressing F6.
+
+
+人物用 Character Creator/megahuman，动作用Mixamo，杂物/建筑用 Meshy，最后都进 Blender 修一下，再导入游戏引擎。
