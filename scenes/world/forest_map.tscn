@@ -2,20 +2,22 @@
 
 [ext_resource type="Script" path="res://scenes/world/forest_map.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://bdj30xeiexac6" path="res://ui/hud.tscn" id="2_hud"]
-[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_1.gltf" id="3_tree1"]
-[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_2.gltf" id="4_tree2"]
-[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_3.gltf" id="5_tree3"]
-[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_4.gltf" id="6_tree4"]
-[ext_resource type="PackedScene" path="res://assets/models/environment/CommonTree_5.gltf" id="7_tree5"]
+[ext_resource type="Shader" path="res://scenes/world/ground.gdshader" id="8_ground"]
+[ext_resource type="Shader" path="res://scenes/world/sky.gdshader" id="9_sky"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
-sky_top_color = Color(0.4, 0.6, 0.85, 1)
-sky_horizon_color = Color(0.75, 0.8, 0.85, 1)
-ground_bottom_color = Color(0.15, 0.2, 0.1, 1)
-ground_horizon_color = Color(0.5, 0.5, 0.4, 1)
+[sub_resource type="ShaderMaterial" id="SkyMaterial_clouds"]
+shader = ExtResource("9_sky")
+shader_parameter/sky_top = Color(0.25, 0.5, 0.85, 1)
+shader_parameter/sky_horizon = Color(0.7, 0.82, 0.92, 1)
+shader_parameter/cloud_color = Color(1, 1, 1, 1)
+shader_parameter/cloud_shadow = Color(0.62, 0.68, 0.78, 1)
+shader_parameter/cloud_coverage = 0.38
+shader_parameter/cloud_sharpness = 3.0
+shader_parameter/cloud_speed = 0.006
+shader_parameter/cloud_scale = 0.32
 
 [sub_resource type="Sky" id="Sky_main"]
-sky_material = SubResource("ProceduralSkyMaterial_sky")
+sky_material = SubResource("SkyMaterial_clouds")
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 2
@@ -24,17 +26,25 @@ ambient_light_source = 3
 tonemap_mode = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
-size = Vector3(100, 0.4, 100)
+size = Vector3(250, 0.4, 250)
 
-[sub_resource type="StandardMaterial3D" id="Material_grass"]
-albedo_color = Color(0.32, 0.45, 0.22, 1)
+[sub_resource type="ShaderMaterial" id="Material_grass"]
+shader = ExtResource("8_ground")
+shader_parameter/grass_dark = Color(0.16, 0.27, 0.11, 1)
+shader_parameter/grass_mid = Color(0.27, 0.4, 0.17, 1)
+shader_parameter/grass_light = Color(0.42, 0.55, 0.26, 1)
+shader_parameter/dirt_color = Color(0.34, 0.28, 0.17, 1)
+shader_parameter/macro_scale = 0.12
+shader_parameter/detail_scale = 1.5
+shader_parameter/dirt_amount = 0.18
+shader_parameter/roughness_val = 0.95
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
-size = Vector2(100, 100)
+size = Vector2(250, 250)
 material = SubResource("Material_grass")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
-size = Vector3(100, 4, 1)
+size = Vector3(250, 4, 1)
 
 [node name="ForestMap" type="Node3D"]
 script = ExtResource("1_script")
@@ -58,65 +68,27 @@ mesh = SubResource("PlaneMesh_floor")
 [node name="Boundary" type="Node3D" parent="."]
 
 [node name="WallN" type="StaticBody3D" parent="Boundary"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -50)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -125)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boundary/WallN"]
 shape = SubResource("BoxShape3D_wall")
 
 [node name="WallS" type="StaticBody3D" parent="Boundary"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 50)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 125)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boundary/WallS"]
 shape = SubResource("BoxShape3D_wall")
 
 [node name="WallE" type="StaticBody3D" parent="Boundary"]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 50, 2, 0)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 125, 2, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boundary/WallE"]
 shape = SubResource("BoxShape3D_wall")
 
 [node name="WallW" type="StaticBody3D" parent="Boundary"]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -50, 2, 0)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -125, 2, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boundary/WallW"]
 shape = SubResource("BoxShape3D_wall")
-
-[node name="Trees" type="Node3D" parent="."]
-
-[node name="Tree1" parent="Trees" instance=ExtResource("3_tree1")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 15, 0, -8)
-
-[node name="Tree2" parent="Trees" instance=ExtResource("4_tree2")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -12, 0, -18)
-
-[node name="Tree3" parent="Trees" instance=ExtResource("5_tree3")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 22, 0, 15)
-
-[node name="Tree4" parent="Trees" instance=ExtResource("6_tree4")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -25, 0, 8)
-
-[node name="Tree5" parent="Trees" instance=ExtResource("7_tree5")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 8, 0, 25)
-
-[node name="Tree6" parent="Trees" instance=ExtResource("3_tree1")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -8, 0, 30)
-
-[node name="Tree7" parent="Trees" instance=ExtResource("4_tree2")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 35, 0, -25)
-
-[node name="Tree8" parent="Trees" instance=ExtResource("5_tree3")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -32, 0, -30)
-
-[node name="Tree9" parent="Trees" instance=ExtResource("6_tree4")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 28, 0, 38)
-
-[node name="Tree10" parent="Trees" instance=ExtResource("7_tree5")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -38, 0, 35)
-
-[node name="Tree11" parent="Trees" instance=ExtResource("3_tree1")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 5, 0, -32)
-
-[node name="Tree12" parent="Trees" instance=ExtResource("4_tree2")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -18, 0, -42)
 
 [node name="HUD" parent="." instance=ExtResource("2_hud")]

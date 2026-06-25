@@ -5,7 +5,7 @@ extends Node
 const PLAYER_WALK_SPEED := 4.0
 const PLAYER_SNEAK_SPEED := 1.5
 const PLAYER_RUN_SPEED := 8.0
-const PLAYER_JUMP_VELOCITY := 5.0
+const PLAYER_JUMP_VELOCITY := 9.0
 const PLAYER_GRAVITY := 20.0
 
 # Noise radii (meters) — used by animal hearing checks
