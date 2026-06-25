@@ -48,6 +48,7 @@ func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)
 	var next := current_state.process(self, delta)
 	move_and_slide()
+	_sync_locomotion_anim_speed()
 	# Soft world boundary: keep wolf inside ±120m
 	var p := global_transform.origin
 	if absf(p.x) > 120 or absf(p.z) > 120:
@@ -63,6 +64,28 @@ func _apply_gravity(delta: float) -> void:
 		velocity.y -= Config.PLAYER_GRAVITY * delta
 	else:
 		velocity.y = max(velocity.y, 0)
+
+# Reference speeds = the actual movement speeds these clips play at, so playback
+# tracks ground travel and the legs keep pace (no foot sliding). Calibrated to
+# Config: Walk while wandering (2 m/s), Gallop while chasing (6 m/s).
+const WALK_ANIM_REF_SPEED := Config.WOLF_WANDER_SPEED   # 2.0
+const GALLOP_ANIM_REF_SPEED := Config.WOLF_CHASE_SPEED  # 6.0
+
+func _sync_locomotion_anim_speed() -> void:
+	if anim_player == null:
+		return
+	# Use the REAL post-collision velocity, not the intended one: when blocked by a
+	# tree/wall/other animal, move_and_slide keeps `velocity` high but it actually
+	# travels slower — that mismatch is what looks like sliding against obstacles.
+	var rv := get_real_velocity()
+	var ground_speed := Vector2(rv.x, rv.z).length()
+	match anim_player.current_animation:
+		"Walk":
+			anim_player.speed_scale = clampf(ground_speed / WALK_ANIM_REF_SPEED, 0.5, 2.5)
+		"Gallop":
+			anim_player.speed_scale = clampf(ground_speed / GALLOP_ANIM_REF_SPEED, 0.5, 2.5)
+		_:
+			anim_player.speed_scale = 1.0
 
 func _transition(state_name: String) -> void:
 	if current_state:
@@ -88,8 +111,7 @@ func _die() -> void:
 	EventBus.animal_killed.emit("wolf", global_transform.origin)
 	set_physics_process(false)
 	_play_anim("Death")
-	await get_tree().create_timer(2.5).timeout
-	queue_free()
+	# Leave the carcass (with any embedded arrows) in the world — no despawn.
 
 func sees_threat() -> bool:
 	var player: Node = get_tree().get_first_node_in_group("player")

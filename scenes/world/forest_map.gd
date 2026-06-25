@@ -17,8 +17,9 @@ const TREE_SCENES: Array[PackedScene] = [
 const MAP_HALF := 120.0
 const PLAYER_CLEAR_RADIUS := 8.0  # no trees right on top of the player spawn
 
-@export var deer_count: int = 8
-@export var wolf_count: int = 4
+@export var deer_count: int = 20
+@export var wolf_count: int = 10
+@export var respawn_on_death: bool = true   # keep the population constant
 @export var scattered_tree_count: int = 60
 @export var grove_count: int = 5            # dense clusters
 @export var trees_per_grove: int = 12
@@ -35,6 +36,8 @@ func _ready() -> void:
 	_spawn_groves()
 	_spawn_player()
 	_spawn_animals()
+	if respawn_on_death:
+		EventBus.animal_killed.connect(_on_animal_killed)
 
 func _spawn_player() -> void:
 	var p: CharacterBody3D = PlayerScene.instantiate()
@@ -43,13 +46,32 @@ func _spawn_player() -> void:
 
 func _spawn_animals() -> void:
 	for i in deer_count:
-		var d: CharacterBody3D = DeerScene.instantiate()
-		add_child(d)
-		d.global_transform.origin = _random_ground_position()
+		_spawn_animal(DeerScene, _spawn_position_away_from_player())
 	for i in wolf_count:
-		var w: CharacterBody3D = WolfScene.instantiate()
-		add_child(w)
-		w.global_transform.origin = _random_ground_position()
+		_spawn_animal(WolfScene, _spawn_position_away_from_player())
+
+func _spawn_animal(scene: PackedScene, pos: Vector3) -> void:
+	var a: CharacterBody3D = scene.instantiate()
+	add_child(a)
+	a.global_transform.origin = pos
+
+## Replace any killed animal with a fresh one elsewhere so the population holds.
+func _on_animal_killed(animal_type: String, _position: Vector3) -> void:
+	var scene: PackedScene = DeerScene if animal_type == "deer" else WolfScene
+	# Spawn away from the player so animals don't pop in right on top of them.
+	_spawn_animal(scene, _spawn_position_away_from_player())
+
+func _spawn_position_away_from_player() -> Vector3:
+	var player: Node = get_tree().get_first_node_in_group("player")
+	var player_pos := Vector3.ZERO
+	if player:
+		player_pos = player.global_transform.origin
+	# Try a few times to find a spot at least 30m from the player.
+	for attempt in 8:
+		var pos := _random_ground_position()
+		if Vector2(pos.x - player_pos.x, pos.z - player_pos.z).length() > 30.0:
+			return pos
+	return _random_ground_position()
 
 ## Even sparse coverage across the whole map.
 func _scatter_trees() -> void:
